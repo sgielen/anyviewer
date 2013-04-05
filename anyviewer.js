@@ -9,7 +9,8 @@ start_next_tab();
 // Functions
 function start_next_tab() {
 	next_tab_info(function(url, seconds) {
-		load_tab(url, function() {
+		load_tab(url, function(success) {
+			if(!success) seconds = 4;
 			window.setTimeout(start_next_tab, seconds * 1000);
 		});
 	});
@@ -29,10 +30,15 @@ function load_tab(url, callback) {
 		iframe.css("left", 0);
 		iframe.toggleClass("right");
 		iframe.toggleClass("left");
-		callback();
+		callback(true);
 		return;
 	}
+	timeoutTimer = window.setTimeout(function() {
+		load_tab_error(callback);
+		iframe.remove();
+	}, 10000);
 	iframe.load(function() {
+		clearTimeout(timeoutTimer);
 		oldiframe.animate({
 			left: -$(window).width()
 		}, {
@@ -43,7 +49,7 @@ function load_tab(url, callback) {
 				// it's possible there are two iframes with
 				// class left. This breaks the animation.
 				oldiframe.remove();
-				callback();
+				callback(true);
 			}
 		});
 		iframe.animate({
@@ -56,7 +62,18 @@ function load_tab(url, callback) {
 				iframe.toggleClass("left");
 			}
 		});
+	}).error(function() {
+		clearTimeout(timeoutTimer);
+		load_tab_error(callback);
 	});
+}
+
+function load_tab_error(callback) {
+	show_error("An error occured with tab " + tab_counter
+	    + ", skipping...");
+
+	// Act as if this tab loaded just fine
+	callback(false);
 }
 
 function next_tab_info(callback) {
