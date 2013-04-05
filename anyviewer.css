@@ -12,8 +12,21 @@ iframe {
 	border: 0;
 }
 
-
-.errorDlg {
+#errorDlg {
+	position: absolute;
+	z-index: 2;
+	width: 60%;
+	left: 20%;
+	top: 8%;
+	height: 3em;
+	font-color: white;
+	background: rgba(255, 255, 255, 0.8);
+	text-align: center;
+	padding: 4px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 	display: none;
 }
 

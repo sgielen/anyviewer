@@ -16,7 +16,7 @@ function start_next_tab() {
 
 function load_tab(url) {
 	$("#loading").hide();
-	$(".errorDlg").fadeOut();
+	$("#errorDlg").fadeOut();
 	iframe = $("<iframe>").toggleClass("right");
 	iframe.css("width", $(window).width());
 	iframe.css("height", $(window).height());
@@ -75,5 +75,5 @@ function next_tab_info(callback) {
 
 function show_error(message) {
 	console.log(message);
-	$(".errorDlg").text(message).fadeIn();
+	$("#errorDlg").text(message).fadeIn();
 }
