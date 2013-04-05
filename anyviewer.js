@@ -10,7 +10,7 @@ start_next_tab();
 function start_next_tab() {
 	next_tab_info(function(url, seconds) {
 		load_tab(url);
-		window.setTimeout(start_next_tab, seconds);
+		window.setTimeout(start_next_tab, seconds * 1000);
 	});
 }
 
