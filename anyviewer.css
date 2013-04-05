@@ -22,3 +22,10 @@ iframe#right {
 .errorDlg {
 	display: none;
 }
+
+#loading {
+	font-size: 40px;
+	color: #999;
+	text-align: center;
+	padding-top: 20%;
+}
