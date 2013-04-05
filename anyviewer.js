@@ -15,7 +15,37 @@ function start_next_tab() {
 }
 
 function load_tab(url) {
-	console.log("Load tab: ", url);
+	$("#loading").hide();
+	$(".errorDlg").fadeOut();
+	iframe = $("<iframe>").toggleClass("right");
+	iframe.css("width", $(window).width());
+	iframe.css("height", $(window).height());
+	iframe.css("left", $(window).width());
+	iframe.attr("src", url);
+	$("body").append(iframe);
+	iframe.load(function() {
+		oldiframe = $("iframe.left");
+		oldiframe.animate({
+			left: -$(window).width()
+		}, {
+			duration: move_duration,
+			queue: false,
+			complete: function() {
+				console.log("move complete");
+				oldiframe.remove();
+			}
+		});
+		iframe.animate({
+			left: 0
+		}, {
+			duration: move_duration,
+			queue: false,
+			complete: function() {
+				iframe.toggleClass("right");
+				iframe.toggleClass("left");
+			}
+		});
+	});
 }
 
 function next_tab_info(callback) {
@@ -23,10 +53,23 @@ function next_tab_info(callback) {
 		url: tab_info_url,
 		dataType: 'json'
 	}).done(function(data) {
-		show_error(data);
+		if(tab_counter >= data.length) {
+			tab_counter = 0;
+		}
+		if(data.length == 0) {
+			show_error("Tabs file is empty.");
+			window.setTimeout(function() {
+				next_tab_info(callback);
+			}, 1000);
+		} else {
+			tab_info = data[tab_counter++];
+			callback(tab_info['url'], tab_info['seconds']);
+		}
 	}).fail(function(x, error) {
 		show_error("error: " + error + "\n" + JSON.stringify(x));
-		window.setTimeout(function() { next_tab_info(callback); }, 1000);
+		window.setTimeout(function() {
+			next_tab_info(callback);
+		}, 1000);
 	});
 }
 

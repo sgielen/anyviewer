@@ -9,15 +9,9 @@ body {
 
 iframe {
 	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: -50%;
 	border: 0;
 }
 
-iframe#right {
-	left: 50%;
-}
 
 .errorDlg {
 	display: none;
