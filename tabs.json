@@ -6,8 +6,10 @@
 	"seconds": 10
 }, {
 	"url": "https://gs1.wac.edgecastcdn.net/8019B6/data.tumblr.com/tumblr_lribm3aoPY1qk8rvb.gif",
-	"seconds": 10
+	"seconds": 10,
+	"timeout": 2
 }, {
 	"url": "https://limesco.nl",
-	"seconds": 10
+	"seconds": 10,
+	"timeout": 4
 }]

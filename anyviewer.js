@@ -1,6 +1,10 @@
 // Configuration
 tab_info_url = "tabs.json";
 move_duration = 2000;
+// The default time to wait for a new tab load, until we assume it's probably
+// broken and not going to load. Can be changed in the "tabs.json" file by
+// setting 'timeout' to some other value.
+default_timeout_seconds = 10;
 
 // State variables
 tab_counter = 0;
@@ -8,15 +12,15 @@ start_next_tab();
 
 // Functions
 function start_next_tab() {
-	next_tab_info(function(url, seconds) {
-		load_tab(url, function(success) {
+	next_tab_info(function(url, timeout_seconds, seconds) {
+		load_tab(url, timeout_seconds, function(success) {
 			if(!success) seconds = 4;
 			window.setTimeout(start_next_tab, seconds * 1000);
 		});
 	});
 }
 
-function load_tab(url, callback) {
+function load_tab(url, timeout_seconds, callback) {
 	$("#loading").hide();
 	$("#errorDlg").fadeOut();
 	oldiframe = $("iframe.left");
@@ -36,7 +40,7 @@ function load_tab(url, callback) {
 	timeoutTimer = window.setTimeout(function() {
 		load_tab_error(callback);
 		iframe.remove();
-	}, 10000);
+	}, timeout_seconds * 1000);
 	iframe.load(function() {
 		clearTimeout(timeoutTimer);
 		oldiframe.animate({
@@ -92,7 +96,11 @@ function next_tab_info(callback) {
 			}, 1000);
 		} else {
 			tab_info = data[tab_counter++];
-			callback(tab_info['url'], tab_info['seconds']);
+			timeout = tab_info['timeout'];
+			if(!timeout) {
+				timeout = default_timeout_seconds;
+			}
+			callback(tab_info['url'], timeout, tab_info['seconds']);
 		}
 	}).fail(function(x, error) {
 		show_error("error: " + error + "\n" + JSON.stringify(x));
