@@ -51,7 +51,8 @@ function load_tab(url) {
 function next_tab_info(callback) {
 	jQuery.ajax({
 		url: tab_info_url,
-		dataType: 'json'
+		dataType: 'json',
+		cache: false
 	}).done(function(data) {
 		if(tab_counter >= data.length) {
 			tab_counter = 0;
