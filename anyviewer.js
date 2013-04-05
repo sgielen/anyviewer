@@ -9,30 +9,41 @@ start_next_tab();
 // Functions
 function start_next_tab() {
 	next_tab_info(function(url, seconds) {
-		load_tab(url);
-		window.setTimeout(start_next_tab, seconds * 1000);
+		load_tab(url, function() {
+			window.setTimeout(start_next_tab, seconds * 1000);
+		});
 	});
 }
 
-function load_tab(url) {
+function load_tab(url, callback) {
 	$("#loading").hide();
 	$("#errorDlg").fadeOut();
+	oldiframe = $("iframe.left");
 	iframe = $("<iframe>").toggleClass("right");
 	iframe.css("width", $(window).width());
 	iframe.css("height", $(window).height());
 	iframe.css("left", $(window).width());
 	iframe.attr("src", url);
 	$("body").append(iframe);
+	if(oldiframe.length == 0) {
+		iframe.css("left", 0);
+		iframe.toggleClass("right");
+		iframe.toggleClass("left");
+		callback();
+		return;
+	}
 	iframe.load(function() {
-		oldiframe = $("iframe.left");
 		oldiframe.animate({
 			left: -$(window).width()
 		}, {
 			duration: move_duration,
 			queue: false,
 			complete: function() {
-				console.log("move complete");
+				// if load_tab() is called before this point,
+				// it's possible there are two iframes with
+				// class left. This breaks the animation.
 				oldiframe.remove();
+				callback();
 			}
 		});
 		iframe.animate({
