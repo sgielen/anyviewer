@@ -5,7 +5,7 @@
 	"url": "http://bitcoinity.org/markets?currency=EUR&exchange=mtgox",
 	"seconds": 10
 }, {
-	"url": "http://localhost:27999",
+	"url": "http://1.1.1.1:27999",
 	"seconds": 1,
 	"timeout": 4
 }, {
