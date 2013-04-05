@@ -1,7 +1,12 @@
-tab_counter = 0
-tab_info_url = "tabs.json"
+// Configuration
+tab_info_url = "tabs.json";
+move_duration = 2000;
+
+// State variables
+tab_counter = 0;
 start_next_tab();
 
+// Functions
 function start_next_tab() {
 	next_tab_info(function(url, seconds) {
 		load_tab(url);
