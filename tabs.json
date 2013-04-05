@@ -1,7 +1,13 @@
 [{
-	"url": "http://sjorsgielen.nl",
-	"seconds": 3
+	"url": "http://humdi.net/vnstat/cgidemo/",
+	"seconds": 10
+}, {
+	"url": "http://bitcoinity.org/markets?currency=EUR&exchange=mtgox",
+	"seconds": 10
+}, {
+	"url": "https://gs1.wac.edgecastcdn.net/8019B6/data.tumblr.com/tumblr_lribm3aoPY1qk8rvb.gif",
+	"seconds": 10
 }, {
 	"url": "https://limesco.nl",
-	"seconds": 3
+	"seconds": 10
 }]
